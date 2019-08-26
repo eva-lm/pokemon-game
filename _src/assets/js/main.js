@@ -7,6 +7,8 @@ let pokeUp = [];
 function getDataFromServer() {
   console.log("Recogemos los datos de la Api y escuchamos el tamaño clickado");
   pokemon = [];
+  pokeUp = [];
+
   for (let i = 0; i < input.length; i++) {
     if (input[i].checked) {
       return fetch(
@@ -14,7 +16,7 @@ function getDataFromServer() {
       )
         .then(response => response.json())
         .then(data => {
-          //console.log(data);
+          console.log(data);
           saveData(data);
           paintPokemon();
           listenPokemon();
@@ -69,42 +71,38 @@ function getClicked(ev) {
   const index = parseInt(ev.currentTarget.dataset.index);
   const pokemonItems = document.querySelectorAll(".js-li");
   console.log("pokemonItems", pokemonItems);
-  pokemonItems[index].classList.add("select");
-
-  console.log(index);
-  pokemonUp(index);
+  //pokemonItems[index].classList.add("select");
+  if (pokemonItems[index]) {
+    paintPokemonUp();
+  }
+  console.log(pokeUp);
   listenPokemon();
 }
 
-function pokemonUp(index) {
-  console.log("poner pokemon dados la vuelta");
-  const pokemonList = document.querySelector(".js-list");
-  let text = "";
-  const pokemonItems = document.querySelectorAll(".js-li");
-
-  //for (let i = 0; i < pokeUp.length; i++) {
-  if (pokemonItems[index]) {
-    for (let i = 0; i < pokeUp.length; i++) {
-      text += `<li class="js-li-up">
-        <img src="${pokeUp[i].image}">
-        <p>${pokeUp[i].name}</p></li>`;
+/* function pokemonGo(index) {
+  const poke = pokeUp[index];
+  for (const pokeball of pokemon) {
+    if (pokeball === poke) {
+      return true;
     }
   }
-  pokemonList.innerHTML = text;
+  return false;
+} */
+function paintPokemonUp() {
+  console.log("poner pokemon dados la vuelta");
+  const faceUpList = document.querySelector(".js-list");
+  let addText = "";
+  const pokemonItems = document.querySelectorAll(".js-li");
+
+  for (let i = 0; i < pokeUp.length; i++) {
+    addText += `<li class="js-item-faceUp" data-index="${i}">
+        <img src="${pokeUp[i].image}">
+        <p>${pokeUp[i].name}</p></li>`;
+  }
+
+  faceUpList.innerHTML = addText;
 
   console.log(pokeUp);
 }
-
-/* function paintFaceUp() {
-  const pokemonList = document.querySelector(".js-list");
-  let text = "";
-  for (let i = 0; i < pokeUp.length; i++) {
-    text += `<li class="js-li-up" data-index="${i}">
-      <img src="${pokeUp[i].image}">
-      <p>${pokeUp[i].name}</p>;
-      </li>`;
-  }
-  pokemonList.innerHTML = text;
-} */
 
 button.addEventListener("click", getDataFromServer);
