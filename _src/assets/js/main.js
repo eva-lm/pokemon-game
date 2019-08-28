@@ -71,38 +71,40 @@ function getClicked(ev) {
   const index = parseInt(ev.currentTarget.dataset.index);
   const pokemonItems = document.querySelectorAll(".js-li");
   console.log("pokemonItems", pokemonItems);
-  //pokemonItems[index].classList.add("select");
-  if (pokemonItems[index]) {
-    paintPokemonUp();
-  }
-  console.log(pokeUp);
+
   listenPokemon();
+  paintPokemonUp(index);
+  //pokemonGo(index);
 }
 
-/* function pokemonGo(index) {
-  const poke = pokeUp[index];
-  for (const pokeball of pokemon) {
-    if (pokeball === poke) {
-      return true;
+function paintPokemonUp(index) {
+  console.log("poner pokemon dados la vuelta");
+  const faceUpList = document.querySelector(".js-list");
+  let addText = "";
+  for (let i = 0; i < pokeUp.length; i++) {
+    if (i === index) {
+      addText += `<li class="js-item-faceUp" data-index="${index}">
+        <img src="${pokeUp[index].image}">
+        <p>${pokeUp[index].name}</p></li>`;
+    } else {
+      addText += `<li class="js-li" data-index="${i}">
+    <img src="${pokemon[i].image}">
+    </li>`;
+    }
+    faceUpList.innerHTML = addText;
+  }
+  console.log(pokeUp[index]);
+  listenPokemon();
+}
+/* 
+function pokemonGo(index) {
+  const pokeSelect = pokeUp[index]; //object
+  for (const pokeball of pokeUp) {
+    if (pokeball === pokeSelect) {
+      paintPokemonUp(index);
     }
   }
   return false;
 } */
-function paintPokemonUp() {
-  console.log("poner pokemon dados la vuelta");
-  const faceUpList = document.querySelector(".js-list");
-  let addText = "";
-  const pokemonItems = document.querySelectorAll(".js-li");
-
-  for (let i = 0; i < pokeUp.length; i++) {
-    addText += `<li class="js-item-faceUp" data-index="${i}">
-        <img src="${pokeUp[i].image}">
-        <p>${pokeUp[i].name}</p></li>`;
-  }
-
-  faceUpList.innerHTML = addText;
-
-  console.log(pokeUp);
-}
 
 button.addEventListener("click", getDataFromServer);
